@@ -7,8 +7,8 @@ from ..utils.common import get_md5
 import re
 import sys
 
-reload(sys)
-sys.setdefaultencoding("utf-8")
+# reload(sys)
+# sys.setdefaultencoding("utf-8")
 
 
 class HaodooSpider(CrawlSpider):
@@ -59,5 +59,5 @@ class HaodooSpider(CrawlSpider):
             item['book_type'] = " "
             return item
         except Exception as e:
-            print e
+            print (e)
             return

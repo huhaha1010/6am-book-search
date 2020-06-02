@@ -11,13 +11,13 @@ class EsearchPipeline(object):
         # print item
         return item
 #为了代码的清晰度，将es数据类型定义、格式转换和es的连接放到models/es_types.py
-from models.es_types import CommonbookType
+from .models.es_types import CommonbookType
 
 
 class ElasticsearchPipeline(object):
 
     def process_item(self, item, spider):
-        print item
+        print (item)
         job = CommonbookType(item)# 将item转换为es所需格式
         # 将数据传入es
         # jobType继承自DocType，所以DocType有的函数，它都有。

@@ -5,8 +5,8 @@ from ..items import EsearchItem
 from ..utils.common import get_md5
 import sys
 
-reload(sys)
-sys.setdefaultencoding("utf-8")
+# reload(sys)
+# sys.setdefaultencoding("utf-8")
 
 
 class DoubanSpider(CrawlSpider):
@@ -37,5 +37,5 @@ class DoubanSpider(CrawlSpider):
             item['book_intro'] = "".join(response.xpath("//div[@class='intro']//p").xpath("string(.)").extract())
             return item
         except Exception as e:
-            print e
+            print (e)
             return

@@ -6,8 +6,8 @@ from ..items import KindleItem
 from ..utils.common import get_md5
 import sys
 
-reload(sys)
-sys.setdefaultencoding("utf-8")
+# reload(sys)
+# sys.setdefaultencoding("utf-8")
 
 
 class KindlepushSpider(CrawlSpider):
@@ -29,5 +29,5 @@ class KindlepushSpider(CrawlSpider):
             item['kindle_intro'] = response.xpath("//article[@class='intro']/p/text()").extract()[0]
             return item
         except Exception as e:
-            print e
+            print (e)
             return
