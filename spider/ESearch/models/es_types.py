@@ -102,8 +102,8 @@ class CommonbookType(Document):
             if text:
                 # 字符串不为空时，调用elasticsearch的analyze接口分析字符串（分词、大小写转换）
                 words = es.indices.analyze(body={'text': text, 'analyzer': "ik_max_word"})
-                print "words = "
-                print words
+                print ("words = ")
+                print (words)
                 # anylyzed_words = set([r["token"] for r in words["tokens"] if len(r["token"]) > 1])
                 analyzed_words = []
                 for r in words["tokens"]:

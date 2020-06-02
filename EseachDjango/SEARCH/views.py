@@ -2,15 +2,22 @@
 import json
 from django.shortcuts import render
 from django.views.generic.base import View
-from models import CommonbookType
+from .models import CommonbookType
 
 from django.http import HttpResponse
 from elasticsearch import Elasticsearch
 from datetime import datetime
+import redis
 
 client = Elasticsearch(hosts=["127.0.0.1"])
+redis_cli = redis.StrictRedis()
 
-
+class IndexView(View):
+    # 首页
+    def get(self, request):
+        topn_search = redis_cli.zrevrangebyscore("search_keywords_set", "+inf", "-inf", start=0, num=5)
+        topn_search = [item.decode('utf8') for item in topn_search]
+        return render(request, "index.html", {"topn_search": topn_search})
 
 class SearchSuggest(View):
     def get(self, request):
@@ -24,7 +31,7 @@ class SearchSuggest(View):
                 },
                 "size": 10
             })
-            print s.to_dict()
+            print (s.to_dict())
             suggestions = s.execute().suggest
             for match in suggestions.my_suggest[0].options:
                 source = match._source
@@ -32,8 +39,25 @@ class SearchSuggest(View):
         return HttpResponse(json.dumps(re_datas), content_type="application/json")
 
 class SearchView(View):
+
     def get(self,request):
-        key_words = request.GET.get('q','')
+        response = client.search(
+            index="booksearch",
+            body={
+            }
+        )
+        redis_cli.set("total", response['hits']['total']['value'])
+        # 获取搜索关键字
+        key_words = request.GET.get("q", "")
+        # 获取当前选择搜索的范围
+        s_type = request.GET.get("s_type", "")
+
+        redis_cli.zincrby("search_keywords_set", 1, key_words)  # 该key_words的搜索记录+1
+
+        topn_search = redis_cli.zrevrangebyscore("search_keywords_set", "+inf", "-inf", start=0, num=5)
+        topn_search = [item.decode('utf8') for item in topn_search]
+
+        # key_words = request.GET.get('q','')
         page = request.GET.get('p','')
         try:
             page = int(page)
@@ -74,7 +98,7 @@ class SearchView(View):
         hit_list = []
         for hit in response["hits"]["hits"]:
             hit_dict = {}
-            print hit
+            print (hit)
             if "book_name" in hit["highlight"]:
                 hit_dict["book_name"] =''.join(hit["highlight"]["book_name"])
             else:
@@ -114,5 +138,6 @@ class SearchView(View):
                                              "total_nums":total_nums,
                                              "page_nums":page_nums,
                                              "last_seconds":last_seconds,
+                                             "topn_search": topn_search
                                              })
 

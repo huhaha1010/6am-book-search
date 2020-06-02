@@ -7,8 +7,8 @@ from ..items import EsearchItem
 from ..utils.common import get_md5
 import sys
 
-reload(sys)
-sys.setdefaultencoding("utf-8")
+# reload(sys)
+# sys.setdefaultencoding("utf-8")
 
 
 class XuexiSpider(CrawlSpider):
@@ -56,5 +56,5 @@ class XuexiSpider(CrawlSpider):
 
             return item
         except Exception as e:
-            print e
+            print (e)
             return

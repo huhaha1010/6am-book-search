@@ -1,7 +1,7 @@
 
 <!DOCTYPE html >
 <html xmlns="http://www.w3.org/1999/xhtml">
-{% load staticfiles %}
+{% load static %}
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -105,25 +105,25 @@
                 <!-- 分页 -->
                 <div class="pagination ue-clear"></div>
                 <!-- 相关搜索 -->
-                
-                
-                
+
+
+
             </div>
             <div class="historyArea">
-{#            	<div class="hotSearch">#}
-{#                	<h6>热门搜索</h6>#}
-{#                    <ul class="historyList">#}
-{#                        {% for search_word in topn_search %}#}
-{#                            <li><a href="/search?q={{ search_word }}">{{ search_word }}</a></li>#}
-{#                        {% endfor %}#}
-{#                    </ul>#}
-{#                </div>#}
-                <div class="mySearch">
+            	<div class="hotSearch">
                 	<h6>热门搜索</h6>
                     <ul class="historyList">
-
+                        {% for search_word in topn_search %}
+                            <li><a href="/search?q={{ search_word }}">{{ search_word }}</a></li>
+                        {% endfor %}
                     </ul>
                 </div>
+{#                <div class="mySearch">#}
+{#                	<h6>热门搜索</h6>#}
+{#                    <ul class="historyList">#}
+{##}
+{#                    </ul>#}
+{#                </div>#}
                 <div class="mySearch">
                 	<h6>我的搜索</h6>
                     <ul class="historyList">
@@ -145,11 +145,11 @@
 
 	$('.searchList').on('click', '.searchItem', function(){
 		$('.searchList .searchItem').removeClass('current');
-		$(this).addClass('current');	
+		$(this).addClass('current');
 	});
-	
+
 	$.each($('.subfieldContext'), function(i, item){
-		$(this).find('li:gt(2)').hide().end().find('li:last').show();		
+		$(this).find('li:gt(2)').hide().end().find('li:last').show();
 	});
 
 	function removeByValue(arr, val) {
@@ -163,29 +163,29 @@
 	$('.subfieldContext .more').click(function(e){
 		var $more = $(this).parent('.subfieldContext').find('.more');
 		if($more.hasClass('show')){
-			
+
 			if($(this).hasClass('define')){
 				$(this).parent('.subfieldContext').find('.more').removeClass('show').find('.text').text('自定义');
 			}else{
-				$(this).parent('.subfieldContext').find('.more').removeClass('show').find('.text').text('更多');	
+				$(this).parent('.subfieldContext').find('.more').removeClass('show').find('.text').text('更多');
 			}
 			$(this).parent('.subfieldContext').find('li:gt(2)').hide().end().find('li:last').show();
 	    }else{
 			$(this).parent('.subfieldContext').find('.more').addClass('show').find('.text').text('收起');
-			$(this).parent('.subfieldContext').find('li:gt(2)').show();	
+			$(this).parent('.subfieldContext').find('li:gt(2)').show();
 		}
-		
+
 	});
-	
+
 	$('.sideBarShowHide a').click(function(e) {
 		if($('#main').hasClass('sideBarHide')){
 			$('#main').removeClass('sideBarHide');
 			$('#container').removeClass('sideBarHide');
 		}else{
-			$('#main').addClass('sideBarHide');	
+			$('#main').addClass('sideBarHide');
 			$('#container').addClass('sideBarHide');
 		}
-        
+
     });
 	var key_words = document.getElementsByClassName("searchInput")[0].getAttribute("value")
 	//分页
@@ -199,16 +199,16 @@
 	    console.log('page_id = ', page_id)
 		window.location.href=search_url+'?q='+key_words+'&p='+page_id
 	}
-	
+
 	setHeight();
 	$(window).resize(function(){
-		setHeight();	
+		setHeight();
 	});
-	
+
 	function setHeight(){
 		if($('#container').outerHeight() < $(window).height()){
 			$('#container').height($(window).height()-33);
-		}	
+		}
 	}
 </script>
 <script type="text/javascript">

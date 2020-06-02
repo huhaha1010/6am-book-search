@@ -7,8 +7,8 @@ from ..utils.common import get_md5
 import re
 import sys
 
-reload(sys)
-sys.setdefaultencoding("utf-8")
+# reload(sys)
+# sys.setdefaultencoding("utf-8")
 
 
 class KindlefereSpider(CrawlSpider):
@@ -47,5 +47,5 @@ class KindlefereSpider(CrawlSpider):
             item['kindle_intro'] = "".join(response.xpath("//div[@class='intro']//p").xpath("string(.)").extract())
             return item
         except Exception as e:
-            print e
+            print (e)
             return
